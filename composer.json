@@ -1,0 +1,8 @@
+{
+	"name":"infrajs/nostore",
+	"description": "Procces header Cache-Control no-store and no-cache",
+	"license": "GPL3",
+	"autoload": {
+		"psr-4": { "infrajs\\nostore\\": "" }
+	}
+}
