@@ -13,11 +13,17 @@ class Nostore {
 		foreach ($list as $name) {
 			$r = explode(':', $name, 2);
 			if ($r[0] == 'Cache-Control') {
-				return (strpos($r[1], 'no-store') === false);
+				return (strpos($r[1], 'no-store') !== false);
 			}
 		}
 
 		return true;
+	}
+	public static function on() {
+		header('Cache-Control: no-store'); 
+	}
+	public static function off() {
+		header('Cache-Control: no-cache'); //no-cache ключевое слово используемое в infra_cache
 	}
 	public static function check($call)
 	{
