@@ -7,6 +7,9 @@ class Nostore {
 	 * no-store - вообще не сохранять кэш.
 	 * no-cache - кэш сохранять но каждый раз спрашивать не поменялось ли чего.
 	 */
+	public static $conf=array(
+		"max-age"=>28000
+	);
 	public static function is()
 	{
 		$list = headers_list();
@@ -19,30 +22,37 @@ class Nostore {
 
 		return true;
 	}
-	public static function on() {
+	public static function cache()
+	{
+		header('Cache-Control: max-age='.static::$conf['max-age'].', public'); //Переадресация на статику кэшируется на 5 часов. (обновлять сайт надо вечером, а утром у всех всё будет ок)
+	}
+	public static function on()
+	{
 		header('Cache-Control: no-store'); 
 	}
-	public static function off() {
+	public static function off()
+	{
 		header('Cache-Control: no-cache'); //no-cache ключевое слово используемое в infra_cache
 	}
+	/**
+	 * Реагируем на no-store
+	 **/
 	public static function check($call)
 	{
-		$cache = static::is();
-		if (!$cache) {
+		$nocache = static::is();
+		if ($nocache) { //Есть no-store
 			//По умолчанию готовы кэшировать
 			header('Cache-Control: no-cache');
 		}
 
 		$call();
 
-		//Смотрим есть ли возражения
-		$cache_after = static::is();
-
-		if (!$cache && $cache_after) {
-			//Возражений нет и функция вернёт это в $cache2..
-			//но уже была установка что кэш не делать... возвращем эту установку для вообще скрипта
+		//Смотрим есть ли возражения, установил ли кто-то там no-store
+		$nocache_after = static::is();
+		//Никто не установил но надо вернуть если такой заголовок уже был
+		if ($nocache && !$nocache_after) {
 			header('Cache-Control: no-store');
 		}
-		return $cache_after;
+		return $nocache_after;
 	}
 }
