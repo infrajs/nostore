@@ -1,6 +1,6 @@
 {
 	"conf":"infrajs\\nostore\\Nostore",
-	"max-age":28000,
+	"max-age":18000, //5 часов
 	"require":"infra.php",
 	"public":true
 }
