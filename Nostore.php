@@ -21,8 +21,7 @@ class Nostore {
 				return (strpos($r[1], 'no-store') !== false);
 			}
 		}
-
-		return true;
+		return false;
 	}
 	public static function isPub()
 	{

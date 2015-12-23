@@ -1,6 +1,5 @@
 <?php
 namespace infrajs\nostore;
-
 $conf=Nostore::$conf;
 if ($conf['public']) {
 	Nostore::pub(); //Администраторы вкурсе кэша
