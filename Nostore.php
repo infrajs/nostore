@@ -12,6 +12,20 @@ class Nostore {
 		"max-age" => 18000, //5 часов
 		"public" => true
 	);
+	/**
+	 * в автозапуск инициализацию вынести нельзя так как нет причин обращаться к Nostore а автозапуск
+	 * привязан к обращение к классу
+	 **/
+	public static function init(){
+
+		$conf=Nostore::$conf;
+		//Значения по умолчанию выставляются
+		if ($conf['public']) {
+			Nostore::pub(); //Администраторы вкурсе кэша
+		} else {
+			Nostore::off(true); //Администраторы не знают как отключать кэш в браузере или для удобства
+		}
+	}
 	public static function is()
 	{
 		$list = headers_list();
