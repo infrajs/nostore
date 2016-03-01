@@ -49,6 +49,11 @@ class Nostore {
 
 		return true;
 	}
+	/**
+	 * Используется в php для включения в кэш браузера
+	 * Если кэш в конфиге запрещён public = false вызов проигнорируется
+	 * Вызывается в init
+	 **/
 	public static function pub()
 	{
 		if (Nostore::is()) return;
