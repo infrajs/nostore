@@ -63,12 +63,12 @@ class Nostore {
 	{
 		header('Cache-Control: no-store'); 
 	}
-	public static function off($r = null)
+
+	/**
+	 * no-cache или public выбирается только общим конфигом. И не рекомендуеся вызывать off() отдельно.
+	 */
+	public static function off()
 	{
-		if (!$r) {
-			echo '<pre>';
-			throw new \Exception('no-cache или public выбирается только общим конфигом. И не рекомендуеся вызывать off() отдельно.');
-		}
 		header('Cache-Control: no-cache'); //no-cache ключевое слово используемое в infra_cache
 	}
 	/**

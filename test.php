@@ -124,10 +124,10 @@ assert(true == $res);
 
 /**
  * Nostore::off - Даннлый метод не рекомендуется использовать отдельно.
- * Если его использовать отдельно, то обязательно должен быть передан аргумент.
+ * no-cache или public выбирается только общим конфигом. И не рекомендуеся вызывать off() отдельно.
  * Он устанавливает заголовку 'Cache-control' значение 'no-cache'
  */
-Nostore::off(true);
+Nostore::off();
 $res = headers_list();
 foreach ($res as $r) {
     $r = explode(':', $r, 2);
@@ -138,3 +138,39 @@ foreach ($res as $r) {
     }
 }
 assert(true == $res);
+
+/**
+ * Nostore::check - Данный метод проверяет, включился ли кэш в выполняемой функции $callback.
+ */
+header('Cache-control: no-cache');
+$res = Nostore::check( function (){
+    header('Cache-Control: no-cache');
+});
+assert(false === $res);
+
+header('Cache-control: no-cache');
+$res = Nostore::check( function (){
+    header('Cache-Control: no-store');
+});
+assert(true === $res);
+
+header('Cache-control: no-store');
+$res = Nostore::check( function (){
+    header('Cache-Control: no-cache');
+});
+assert(false === $res);
+
+header('Cache-control: no-store');
+$res = Nostore::check( function (){
+    header('Cache-Control: no-store');
+});
+assert(true === $res);
+
+if (!session_id()) { //Тест сработает только если сессия ещё не стартовала
+    $res = Nostore::check( function (){
+        session_start(); //В этот момент php отправляет заголовок Cache-Controll no-store и мы об этом узнаём с помощью функции check
+    });
+    assert(true === $res);
+}
+
+Nostore::on(); //Когда идут тесты кэшировать сайт нельзя
