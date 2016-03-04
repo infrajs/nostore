@@ -1,5 +1,6 @@
 {
 	"conf":"infrajs\\nostore\\Nostore",
 	"max-age":43200, //12 часов
-	"public":true
+	"public":true,
+	"tester":"test.php"
 }
