@@ -50,7 +50,7 @@ Nostore::pub(); //public
 
 ### Nostore::is - Проверяет, есть ли в списке отправленных заголовков, заголовок 'Cache-control' с переданным значением 'no-store'. Если есть, то возвращает true, иначе возвращает false.
 
-> Nostore::is()
+> Nostore::is();
 
 ```
 header('Cache-Control: public');
@@ -63,7 +63,7 @@ assert(true === $res);
 
 ### Nostore::pub - Если отсутствует заголовок 'Cache-control' со значением 'no-store', то данный метод устанавливает заголовок 'Cache-control' со значением max-age, которое определено в конфигурации системы. По умолчанию данное значения равно 5 часам.
 
-> Nostore::pub()
+> Nostore::pub();
 
 ```
 header('Cache-Control: no-store');
@@ -86,7 +86,7 @@ Cache-Control: max-age=18000, public
 ### Nostore::init - Если в конфигурации системы свойство public установлено в значение true и если отсутствует заголовок 'Cache-control' со значением 'no-store', данный метод установит заголовок 'Cache-control' со значением max-age, которое определено в конфигурации системы. По умолчанию данное значения равно 5 часам. 
 ### Если свойство public будет равно false, то метод установит значение заголовка 'Cache-control' равное 'no-cache'.
 
-> Nostore::init()
+> Nostore::init();
 
 ```
 Nostore::$conf['public'] = true;
@@ -118,7 +118,7 @@ Cache-Control: no-cache
 ### Nostore::isPub - Данный метод ищет в списке заголовков заголовок 'Cache-control' со значением 'public'.
 ### Если такое значение будет найдено, то метод вернет false, иначе метод вернет true.
 
-> Nostore::isPub()
+> Nostore::isPub();
 
 ```
 header('Cache-Control: max-age=18000, public');
@@ -138,7 +138,7 @@ false
 
 ### Nostore::on - Данный метод устанавливает заголовку 'Cache-control' значение 'no-store'
 
->Nostore::on()
+>Nostore::on();
 
 ```
 header('Cache-Control: max-age=18000, public');
@@ -158,7 +158,7 @@ Cache-Control: no-store
 
 ### Nostore::check - Данный метод проверяет, включился ли кэш в выполняемой функции $callback.
 
-> Nostore::check($callback)
+> Nostore::check($callback);
 
 ```
 header('Cache-control: no-cache');
