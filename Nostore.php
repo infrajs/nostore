@@ -9,7 +9,7 @@ class Nostore {
 	 * public - кэш сохранять. Спрашивать об изменениях раз 5 часов или если открыта консоль разработчика. 
 	 */
 	public static $conf=array(
-		"max-age" => 18000, //5 часов
+		"max-age" => 86400, //24 часа
 		"public" => true
 	);
 	/**
@@ -57,7 +57,7 @@ class Nostore {
 	public static function pub()
 	{
 		if (Nostore::is()) return;
-		header('Cache-Control: max-age='.static::$conf['max-age'].', public'); //Переадресация на статику кэшируется на 5 часов. (обновлять сайт надо вечером, а утром у всех всё будет ок)
+		header('Cache-Control: max-age='.static::$conf['max-age'].', public'); //Переадресация на статику кэшируется
 	}
 	public static function on()
 	{
