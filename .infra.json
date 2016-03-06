@@ -1,6 +1,8 @@
 {
 	"conf":"infrajs\\nostore\\Nostore",
 	"max-age":86400, //24 часа
+	"max-age-dyn":86400, //24 часа
+	"max-age-stat":604800, //7 дней
 	"public":true,
 	"tester":"test.php"
 }
