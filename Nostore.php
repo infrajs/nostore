@@ -10,11 +10,11 @@ class Nostore {
 	 * public - кэш сохранять. Спрашивать об изменениях раз 5 часов или если открыта консоль разработчика. 
 	 */
 	public static $conf=array(
-		"max-age-dyn" => 86400, //24 часа, администратор может изменить
+		"max-age" => 86400, //24 часа, администратор может изменить
 		"max-age-stat" => 604800, //1 неделя, изменяется только при обновлении сайта программистом 
 		
 		//План обновлений сайта программистом. В Expires будет подставляться следующая непрошедшая дата в 00:00 часов считывается кэш. 8 марта 00:00 статья 080316 Праздник.docx в этоже время начнёт показываться
-		"expires-year" => [
+		"expires-year" => [ //dd.mm
 			'05.03','10.03',
 			'25.01','01.01','18.01',
 			'18.02','25.02'],
@@ -98,7 +98,7 @@ class Nostore {
 	{
 		if (Nostore::is()) return;
 		if (!Nostore::$conf['public']) return;
-		header('Cache-Control: public, max-age='.static::$conf['max-age-dyn']); //Переадресация на статику кэшируется max-age-dyn
+		header('Cache-Control: public, max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	public static function pubStat()
