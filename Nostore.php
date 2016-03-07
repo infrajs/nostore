@@ -61,29 +61,7 @@ class Nostore {
 		$conf=Nostore::$conf;
 		//Значения по умолчанию выставляются
 		if ($conf['public']) {
-			Nostore::pubDyn(); //Администраторы вкурсе кэша
-		} else {
-			Nostore::off(); //Администраторы не знают как отключать кэш в браузере или для удобства
-		}
-	}
-	public static function initStat()
-	{
-
-		$conf=Nostore::$conf;
-		//Значения по умолчанию выставляются
-		if ($conf['public']) {
-			Nostore::pubStat(); //Администраторы вкурсе кэша
-		} else {
-			Nostore::off(); //Администраторы не знают как отключать кэш в браузере или для удобства
-		}
-	}
-	public static function initDyn()
-	{
-
-		$conf=Nostore::$conf;
-		//Значения по умолчанию выставляются
-		if ($conf['public']) {
-			Nostore::pubDyn(); //Администраторы вкурсе кэша
+			Nostore::pub(); //Администраторы вкурсе кэша
 		} else {
 			Nostore::off(); //Администраторы не знают как отключать кэш в браузере или для удобства
 		}
@@ -118,20 +96,21 @@ class Nostore {
 	 **/
 	public static function pub()
 	{
-		Nostore::pubDyn();
-	}
-	public static function pubDyn()
-	{
 		if (Nostore::is()) return;
+		if (!Nostore::$conf['public']) return;
 		header('Cache-Control: public, max-age='.static::$conf['max-age-dyn']); //Переадресация на статику кэшируется max-age-dyn
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	public static function pubStat()
 	{
 		if (Nostore::is()) return;
+		if (!Nostore::$conf['public']) return;
 		header('Cache-Control: public, max-age='.static::$conf['max-age-stat']);
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
+	/*
+	 * Включить запрет кэширования
+	 */
 	public static function on()
 	{
 		header('Cache-Control: no-store, max-age=0');
@@ -144,6 +123,13 @@ class Nostore {
 	{
 		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
 		header('Expires:'.date('D, d M Y H:i:s'));
+		if (Nostore::$conf['public']) static::pub();
+	}
+	public static function offStat()
+	{
+		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
+		header('Expires:'.date('D, d M Y H:i:s'));
+		if (Nostore::$conf['public']) static::pubStat();
 	}
 	/**
 	 * Реагируем на no-store
@@ -153,7 +139,7 @@ class Nostore {
 		$nostore = static::is();
 		if ($nostore) { //Есть no-store
 			//По умолчанию готовы кэшировать
-			static::pubDyn(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
+			static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
 		}
 
 		$call();
