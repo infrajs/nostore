@@ -2,11 +2,12 @@
 	"conf":"infrajs\\nostore\\Nostore",
 	"max-age":86400, //24 часа
 	"max-age-stat":604800, //7 дней
-	"expires-year": [ //dd.mm
-		"05.03","10.03",
+	"expires-year": [ 
+		"05.03","10.03", //dd.mm
 		"25.01","01.01","18.01",
-		"18.02","25.02"],
-	"expires-month": [],//День месяца
+		"18.02","25.02"
+	],
+	"expires-month": [], //День месяца
 	"expires-str": [], //'next monday'
 	"public":true,
 	"tester":"test.php"
