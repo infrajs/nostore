@@ -6,8 +6,8 @@
 
 - **no-store**. Content can be changed in an unpredictable time. Content varies with changes in user. New data from the database. Work with the session. The content depends on isAdmin() isDebug() isTest(). Means such content cannot be cached and use the cache for different users.
 - **no-cache**. Content can be changed by the administrator and the administrator need to immediately see the result. We cache the data, but always check the. Content can be changed in a predictable time. A cache by modified date of the file.
-- **public** - Content may change only when a new version of the site. And you can wait 5 hours. 
-The administrator knows that you can refresh the cache in the browser.
+- **public + Expires** - Content may change only when a new version of the site.
+The administrator knows that he can refresh the cache in the browser.
 
 ```php
 Nostore::on(); //no-store
@@ -212,7 +212,7 @@ true
 
 - **no-store**. Содержимое, может быть изменено в непредсказуемый момент. Содержимое меняется с изменениями пользователя. Новые данные из базы данных. Работа с сессией. Содержимое зависит от isAdmin() isDebug() isTest(). Значит такое содержимое нельзя кэшировать и использовать кэш для разных пользователей.
 - **no-cache**. Содержимое, может быть изменено администратором и администратору нужно сразу увидеть результат. Данные кэшируем, но всегда проверяем. Содержимое, может быть изменено в предсказуемый момент. Кэш по дате изменения файла.
-- **public** - Содержимое, может измениться только при выходе новой версии сайта. И можно подождать 5 часов. Администратор знает что можно обновить кэш в браузере.
+- **public + Expires** - Содержимое, может измениться только при выходе новой версии сайта. Администратор знает что можно обновить кэш в браузере.
 
 ```php
 Nostore::on(); //no-store
