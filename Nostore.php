@@ -58,7 +58,7 @@ class Nostore {
 	 **/
 	public static function init(){
 
-		$conf=Nostore::$conf;
+		$conf = Nostore::$conf;
 		//Значения по умолчанию выставляются
 		if ($conf['public']) {
 			Nostore::pub(); //Администраторы вкурсе кэша
