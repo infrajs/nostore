@@ -10,5 +10,9 @@
 	"expires-month": [], //День месяца
 	"expires-str": [], //'next monday'
 	"public":true,
-	"tester":"test.php"
+	"tester":"test.php",
+	"port":{
+		"watch": "https://mc.yandex.ru/metrika/watch.js",
+		"twitter": "http://platform.twitter.com/widgets.js"
+	}
 }

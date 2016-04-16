@@ -18,10 +18,13 @@ class Nostore {
 			'05.03','10.03',
 			'25.01','01.01','18.01',
 			'18.02','25.02'],
-		
 		"expires-month" => [],//Дата месяца
 		"expires-str" => [], //'next monday'
-		"public" => true //expires работает с этим ключём
+		"public" => true, //expires работает с этим ключём
+		"port" => array(
+			"watch" => "https://mc.yandex.ru/metrika/watch.js",
+			"twitter" => "http://platform.twitter.com/widgets.js"
+		)
 	);
 	public static function getExpires()
 	{

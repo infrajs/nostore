@@ -6,6 +6,7 @@
 		"psr-4": { "infrajs\\nostore\\": "" }
 	},
 	"require":{
-		"infrajs/each":"~1"
+		"infrajs/each":"~1",
+		"infrajs/ans":"~1"
 	}
 }
