@@ -1,9 +1,24 @@
 [![Latest Stable Version](https://poser.pugx.org/infrajs/nostore/v/stable)](https://packagist.org/packages/infrajs/nostore) [![Total Downloads](https://poser.pugx.org/infrajs/nostore/downloads)](https://packagist.org/packages/infrajs/nostore)
 
-**Disclaimer: Module is not complete and not ready for use yet.**
+# Управление кэшем браузера
 
+## Установка через composer
+```json
+{
+	"require":{
+		"infrajs/nostore":"~1"
+	}
+}
+```
+## Ипользование
+
+## Тестирование
+После установки откройтев браузере vendor/infrajs/nostore/tester.php
+## Описание
 Статика кэшируется на 4 недели.
 Динамика на 24 часа.
+
+
 
 В Конфиге указываются даты плановых обновлений сайта.
 Например, перед 8 марта меняется статический баннер, заменой файла, по этому указана дата 05.03 и у посетителя который зайдёт 1 марта на сайт кэш установится не на 4 недели, а только на 4 дня, до 5 марта.
