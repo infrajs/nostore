@@ -1,7 +1,7 @@
 {
 	"conf":"infrajs\\nostore\\Nostore",
 	"max-age":86400,
-	"max-age-stat":604800,
+	"max-age-stat":2419200,
 	"expires-year": [ 
 		"05.03","10.03",
 		"25.01","01.01","18.01",
@@ -10,7 +10,7 @@
 	"expires-month": [],
 	"expires-str": [],
 	"public":true,
-	"tester":"test.php",
+	"tester":"tester.php",
 	"port":{
 		"watch": "https://mc.yandex.ru/metrika/watch.js",
 		"twitter": "http://platform.twitter.com/widgets.js"

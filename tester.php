@@ -1,8 +1,8 @@
 <?php
 namespace infrajs\nostore;
 if (!is_file('vendor/autoload.php')) {
-    chdir('../../../'); //Согласно фактическому расположению файла
-    require_once('vendor/autoload.php');
+	chdir('../../../'); //Согласно фактическому расположению файла
+	require_once('vendor/autoload.php');
 }
 
 /**
@@ -26,25 +26,25 @@ header('Cache-Control: no-store');
 Nostore::pub();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' no-store') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control' && $r[1] == ' no-store') {
+		$res = true;
+	} else {
+		$res = false;
+	}
 }
 assert(true == $res);
 
 header('Cache-Control: no-cache');
 Nostore::pub();
-$res = headers_list();
-foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' max-age=18000, public') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+$list = headers_list();
+$res = false;
+foreach ($list as $r) {
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'public') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -55,17 +55,17 @@ assert(true == $res);
  * По умолчанию данное значения равно 5 часам.
  * Если свойство public будет равно false, то метод установит значение заголовка 'Cache-control' равное 'no-cache'.
  */
+$origpublic = Nostore::$conf['public'];
 Nostore::$conf['public'] = true;
 header('Cache-Control: no-cache');
 Nostore::init();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' max-age=18000, public') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'public') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -73,12 +73,11 @@ header('Cache-Control: no-store');
 Nostore::init();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' no-store') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'no-store') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -86,12 +85,11 @@ Nostore::$conf['public'] = false;
 Nostore::init();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' no-cache') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'no-cache') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -113,12 +111,11 @@ header('Cache-Control: max-age=18000, public');
 Nostore::on();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' no-store') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'no-store') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -130,12 +127,11 @@ assert(true == $res);
 Nostore::off();
 $res = headers_list();
 foreach ($res as $r) {
-    $r = explode(':', $r, 2);
-    if ($r[0] == 'Cache-Control' && $r[1] == ' no-cache') {
-        $res = true;
-    } else {
-        $res = false;
-    }
+	$r = explode(':', $r, 2);
+	if ($r[0] == 'Cache-Control') {
+		$res = (strstr($r[1], 'no-cache') !== false);
+		break;
+	}
 }
 assert(true == $res);
 
@@ -144,35 +140,35 @@ assert(true == $res);
  */
 header('Cache-control: no-cache');
 $res = Nostore::check( function (){
-    header('Cache-Control: no-cache');
+	header('Cache-Control: no-cache');
 });
 assert(false === $res);
 
 header('Cache-control: no-cache');
 $res = Nostore::check( function (){
-    header('Cache-Control: no-store');
+	header('Cache-Control: no-store');
 });
 assert(true === $res);
 
 header('Cache-control: no-store');
 $res = Nostore::check( function (){
-    header('Cache-Control: no-cache');
+	header('Cache-Control: no-cache');
 });
 assert(false === $res);
 
 header('Cache-control: no-store');
 $res = Nostore::check( function (){
-    header('Cache-Control: no-store');
+	header('Cache-Control: no-store');
 });
 assert(true === $res);
 
 if (!session_id()) { //Тест сработает только если сессия ещё не стартовала
-    $res = Nostore::check( function (){
-        session_start(); //В этот момент php отправляет заголовок Cache-Controll no-store и мы об этом узнаём с помощью функции check
-    });
-    assert(true === $res);
+	$res = Nostore::check( function (){
+		session_start(); //В этот момент php отправляет заголовок Cache-Controll no-store и мы об этом узнаём с помощью функции check
+	});
+	assert(true === $res);
 }
-
+Nostore::$conf['public'] = $origpublic;
 Nostore::on(); //Когда идут тесты кэшировать сайт нельзя
 
-echo '{"result":1}';
+echo '{"result":1,"msg":"Все тесты пройдены"}';
