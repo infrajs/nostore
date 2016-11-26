@@ -31,16 +31,19 @@ class Nostore {
 	{
 		$conf=static::$conf;
 		$time = time() + $conf["max-age-stat"];
-		Each::exec($conf["expires-year"], function ($dm) use (&$time) {
+		Each::exec($conf["expires-year"], function &($dm) use (&$time) {
+			$r = null;
 			$p = explode('.', $dm);
 			$year = date('Y');
 			$day = (int) $p[0];
 			$month = (int) $p[1];
 			$t = mktime(0, 0, 0, $month, $day, $year);
-			if ($t < time()) return;
+			if ($t < time()) return $r;
 			if ($t < $time) $time = $t;
+			return $r;
 		});
-		Each::exec($conf["expires-month"], function ($dm) use (&$time) {
+		Each::exec($conf["expires-month"], function &($dm) use (&$time) {
+			$r = null;
 			$year = date('Y');
 			$day = $dm;
 			$n = date('d');
@@ -48,11 +51,14 @@ class Nostore {
 			if ($day < $n) $month+=1;
 			$t = mktime(0, 0, 0, $month, $day, $year);
 			if ($t < $time) $time = $t;
+			return $r;
 		});
-		Each::exec($conf["expires-str"], function ($dm) use (&$time) {
+		Each::exec($conf["expires-str"], function &($dm) use (&$time) {
+			$r = null;
 			$t = strtotime($dm);
-			if ($t < time()) return;
+			if ($t < time()) return $r;
 			if ($t < $time) $time = $t;
+			return $r;
 		});
 		return $time;
 	}
