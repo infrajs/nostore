@@ -142,15 +142,22 @@ class Nostore {
 	 */
 	public static function off()
 	{
-		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
-		header('Expires:'.date('D, d M Y H:i:s'));
-		if (Nostore::$conf['public']) static::pub();
+		
+		if (Nostore::$conf['public']) {
+			static::pub();
+		} else {
+			header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
+			header('Expires:'.date('D, d M Y H:i:s'));
+		}
 	}
 	public static function offPrivate()
 	{
-		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
-		header('Expires:'.date('D, d M Y H:i:s'));
-		if (Nostore::$conf['public']) static::private();
+		if (Nostore::$conf['public']) {
+			static::private();
+		} else {
+			header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
+			header('Expires:'.date('D, d M Y H:i:s'));
+		}
 	}
 	public static function offStat()
 	{
