@@ -129,7 +129,7 @@ class Nostore {
 		header('Cache-Control: '.static::$public.', max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
-	public static function private()
+	public static function priv()
 	{
 		if (Nostore::is()) return;
 		if (!Nostore::$conf['public']) return;
@@ -168,7 +168,7 @@ class Nostore {
 	public static function offPrivate()
 	{
 		if (Nostore::$conf['public']) {
-			static::private();
+			static::priv();
 		} else {
 			header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
 			header('Expires:'.date('D, d M Y H:i:s'));
