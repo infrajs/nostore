@@ -9,8 +9,10 @@ class Nostore {
 	 * no-store - вообще не сохранять кэш.
 	 * no-cache - кэш сохранять но каждый раз спрашивать не поменялось ли чего.
 	 * public - кэш сохранять. Спрашивать об изменениях раз 5 часов или если открыта консоль разработчика. 
+	 * private
 	 */
-	public static $conf=array(
+	public static $public = 'public';
+	public static $conf = array(
 		"max-age" => 86400, //24 часа, время кэша, когда public:true, для динамики
 		"max-age-stat" => 604800, //1 неделя, время кэша когда  public:true и вызван Nostore::pubStat() для статики
 		
@@ -97,11 +99,23 @@ class Nostore {
 		foreach ($list as $name) {
 			$r = explode(':', $name, 2);
 			if ($r[0] == 'Cache-Control') {
-				return (strpos($r[1], 'public') !== false);
+				return ((strpos($r[1], 'public') !== false)||(strpos($r[1], 'private') !== false));
 			}
 		}
 
 		return true;
+	}
+	public static function isPrivate()
+	{
+		$list = headers_list();
+		foreach ($list as $name) {
+			$r = explode(':', $name, 2);
+			if ($r[0] == 'Cache-Control') {
+				return (strpos($r[1], 'private') !== false);
+			}
+		}
+
+		return false;
 	}
 	/**
 	 * Используется в php для включения в кэш браузера
@@ -112,21 +126,22 @@ class Nostore {
 	{
 		if (Nostore::is()) return;
 		if (!Nostore::$conf['public']) return;
-		header('Cache-Control: public, max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
+		header('Cache-Control: '.static::$public.', max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	public static function private()
 	{
 		if (Nostore::is()) return;
 		if (!Nostore::$conf['public']) return;
-		header('Cache-Control: private, max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
+		static::$public = 'private';
+		header('Cache-Control: '.static::$public.', max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	public static function pubStat()
 	{
 		if (Nostore::is()) return;
 		if (!Nostore::$conf['public']) return;
-		header('Cache-Control: public, max-age='.static::$conf['max-age-stat']);
+		header('Cache-Control: '.static::$public.', max-age='.static::$conf['max-age-stat']);
 		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	/*
