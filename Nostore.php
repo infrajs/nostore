@@ -68,19 +68,22 @@ class Nostore {
 	 * в автозапуск инициализацию вынести нельзя так как нет причин обращаться к Nostore а автозапуск
 	 * привязан к обращение к классу
 	 **/
-	public static function init()
+	public static function init($main = false)
 	{
 		$conf = Nostore::$conf;
 		$action = Ans::GET('-nostore','string');
-
 		if ($action === 'true') return Nostore::on();
-		
-		if ($conf['public']) {
-			//Значения по умолчанию выставляются
-			Nostore::pub(); //Администраторы вкурсе кэша
+
+		if (!$main) {
+			if ($conf['public']) {
+				Nostore::pubStat();
+			} else {
+				Nostore::off();
+			}
 		} else {
-			Nostore::off(); //Администраторы не знают как отключать кэш в браузере или для удобства
-		}
+			//Идея такая - Главная страница без кэша. Главная страница получает метку текущей версии системы и добавляет её ко всем файлам.
+			Nostore::off();
+		}	
 	}
 	public static function is()
 	{
