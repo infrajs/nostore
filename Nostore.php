@@ -73,15 +73,13 @@ class Nostore {
 		$conf = Nostore::$conf;
 		$action = Ans::GET('-nostore','string');
 		if ($action === 'true') return Nostore::on();
-		
+
 		if (!$main) {
-			if ($conf['public']) {
-				Nostore::pubStat();
-			} else {
-				Nostore::off();
-			}
+			Nostore::pubStat();
 		} else {
 			//Идея такая - Главная страница без кэша. Главная страница получает метку текущей версии системы и добавляет её ко всем файлам.
+			//Все файлы это статика
+			//Динамика только html
 			Nostore::off();
 		}	
 	}
@@ -160,13 +158,9 @@ class Nostore {
 	 */
 	public static function off()
 	{
-		
-		if (Nostore::$conf['public']) {
-			static::pub();
-		} else {
-			header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
-			header('Expires:'.date('D, d M Y H:i:s'));
-		}
+		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
+		header('Expires:'.date('D, d M Y H:i:s'));
+
 	}
 	public static function offPrivate()
 	{
