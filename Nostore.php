@@ -73,7 +73,7 @@ class Nostore {
 		$conf = Nostore::$conf;
 		$action = Ans::GET('-nostore','string');
 		if ($action === 'true') return Nostore::on();
-
+		
 		if (!$main) {
 			if ($conf['public']) {
 				Nostore::pubStat();
