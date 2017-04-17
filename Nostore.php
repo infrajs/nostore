@@ -185,7 +185,8 @@ class Nostore {
 		$nostore = static::is();
 		if ($nostore) { //Есть no-store
 			//По умолчанию готовы кэшировать
-			static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
+			header('Cache-Control: public');
+			//static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
 		}
 
 		$call();
