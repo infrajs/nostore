@@ -177,6 +177,7 @@ class Nostore {
 		header('Expires:'.date('D, d M Y H:i:s'));
 		if (Nostore::$conf['public']) static::pubStat();
 	}
+	public static $debug = false;
 	/**
 	 * Реагируем на no-store
 	 **/
@@ -196,6 +197,11 @@ class Nostore {
 		//Никто не установил но надо вернуть если такой заголовок уже был
 		if ($nostore && !$nostore_after) {
 			static::on();
+		}
+		if (Nostore::$debug && $nostore_after) {
+			echo '<pre>';
+			debug_print_backtrace();
+			exit;
 		}
 		return $nostore_after;
 	}
