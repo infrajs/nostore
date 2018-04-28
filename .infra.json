@@ -9,7 +9,7 @@
 	],
 	"expires-month": [],
 	"expires-str": [],
-	"public":true,
+	"public":false,
 	"tester":"tester.php",
 	"port":{
 		"watch": "https://mc.yandex.ru/metrika/watch.js",
