@@ -12,23 +12,7 @@ class Nostore {
 	 * private
 	 */
 	public static $public = 'public';
-	public static $conf = array(
-		"max-age" => 86400, //24 часа, время кэша, когда public:true, для динамики
-		"max-age-stat" => 604800, //1 неделя, время кэша когда  public:true и вызван Nostore::pubStat() для статики
-		
-		//План обновлений сайта программистом. В Expires будет подставляться следующая непрошедшая дата
-		"expires-year" => [ //dd.mm
-			'05.03','10.03',
-			'25.01','01.01','18.01',
-			'18.02','25.02'],
-		"expires-month" => [],//Дата месяца 1,20
-		"expires-str" => [], //'next monday'
-		"public" => true, //expires работает с этим ключём
-		"port" => array( //указанные файлы можно загрузить по адресу vendor/infrajs/nostore/?port=watch
-			"watch" => "https://mc.yandex.ru/metrika/watch.js",
-			"twitter" => "http://platform.twitter.com/widgets.js"
-		)
-	);
+	public static $conf = array();
 	public static function getExpires()
 	{
 		$conf=static::$conf;
