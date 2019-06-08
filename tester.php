@@ -81,17 +81,6 @@ foreach ($res as $r) {
 }
 assert(true == $res);
 
-Nostore::$conf['public'] = false;
-Nostore::init();
-$res = headers_list();
-foreach ($res as $r) {
-	$r = explode(':', $r, 2);
-	if ($r[0] == 'Cache-Control') {
-		$res = (strstr($r[1], 'no-cache') !== false);
-		break;
-	}
-}
-assert(true == $res);
 
 /**
  * Nostore::isPub - Данный метод ищет в списке заголовков заголовок 'Cache-control' со значением 'public'.

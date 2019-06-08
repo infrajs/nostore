@@ -68,19 +68,20 @@ class Nostore {
 	 * в автозапуск инициализацию вынести нельзя так как нет причин обращаться к Nostore а автозапуск
 	 * привязан к обращение к классу
 	 **/
-	public static function init()
+	public static function init($main = false)
 	{
 		$conf = Nostore::$conf;
 		$action = Ans::GET('-nostore','string');
-
 		if ($action === 'true') return Nostore::on();
-		
-		if ($conf['public']) {
-			//Значения по умолчанию выставляются
-			Nostore::pub(); //Администраторы вкурсе кэша
+
+		if (!$main) {
+			Nostore::pubStat();
 		} else {
-			Nostore::off(); //Администраторы не знают как отключать кэш в браузере или для удобства
-		}
+			//Идея такая - Главная страница без кэша. Главная страница получает метку текущей версии системы и добавляет её ко всем файлам.
+			//Все файлы это статика
+			//Динамика только html
+			Nostore::off();
+		}	
 	}
 	public static function is()
 	{
@@ -157,13 +158,9 @@ class Nostore {
 	 */
 	public static function off()
 	{
-		
-		if (Nostore::$conf['public']) {
-			static::pub();
-		} else {
-			header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
-			header('Expires:'.date('D, d M Y H:i:s'));
-		}
+		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
+		header('Expires:'.date('D, d M Y H:i:s'));
+
 	}
 	public static function offPrivate()
 	{
@@ -180,6 +177,7 @@ class Nostore {
 		header('Expires:'.date('D, d M Y H:i:s'));
 		if (Nostore::$conf['public']) static::pubStat();
 	}
+	public static $debug = false;
 	/**
 	 * Реагируем на no-store
 	 **/
@@ -188,7 +186,8 @@ class Nostore {
 		$nostore = static::is();
 		if ($nostore) { //Есть no-store
 			//По умолчанию готовы кэшировать
-			static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
+			header('Cache-Control: public');
+			//static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
 		}
 
 		$call();
@@ -198,6 +197,11 @@ class Nostore {
 		//Никто не установил но надо вернуть если такой заголовок уже был
 		if ($nostore && !$nostore_after) {
 			static::on();
+		}
+		if (Nostore::$debug && $nostore_after) {
+			echo '<pre>';
+			debug_print_backtrace();
+			exit;
 		}
 		return $nostore_after;
 	}
