@@ -8,7 +8,7 @@
 		"18.02","25.02"
 	],
 	"expires-month": [],
-	"expires-str": [],
+	"expires-str": ["00:00 first day of +1 month"],
 	"public":true,
 	"tester":"tester.php",
 	"port":{
