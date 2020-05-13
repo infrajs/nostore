@@ -1,7 +1,7 @@
 {
 	"conf":"infrajs\\nostore\\Nostore",
 	"max-age":86400,
-	"max-age-stat":6048000,
+	"max-age-stat":31536000,
 	"expires-year": [ 
 		"05.03","10.03",
 		"25.01","01.01","18.01",
