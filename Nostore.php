@@ -144,7 +144,7 @@ class Nostore {
 	{
 		header('Cache-Control: no-cache, max-age=0'); //no-cache ключевое слово используемое в infra_cache
 		header('Expires:'.date('D, d M Y H:i:s'));
-
+		static::pub();
 	}
 	public static function offPrivate()
 	{
