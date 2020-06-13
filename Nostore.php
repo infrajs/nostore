@@ -52,21 +52,26 @@ class Nostore {
 	 * в автозапуск инициализацию вынести нельзя так как нет причин обращаться к Nostore а автозапуск
 	 * привязан к обращение к классу
 	 **/
-	public static function init($main = false)
-	{
+	// public static function init($main = false)
+	// {
 		
-		$conf = Nostore::$conf;
-		$action = Ans::GET('-nostore','string');
-		if ($action === 'true') return Nostore::on();
+	// 	$conf = Nostore::$conf;
+	// 	$action = Ans::GET('-nostore','string');
+	// 	if ($action === 'true') return Nostore::on();
 
-		//if (!$main) {
-		//	Nostore::pubStat();
-		//} else {
-			//Идея такая - Главная страница без кэша. Главная страница получает метку текущей версии системы и добавляет её ко всем файлам.
-			//Все файлы это статика
-			//Динамика только html
-			Nostore::off();
-		//}	
+	// 	//if (!$main) {
+	// 	//	Nostore::pubStat();
+	// 	//} else {
+	// 		//Идея такая - Главная страница без кэша. Главная страница получает метку текущей версии системы и добавляет её ко всем файлам.
+	// 		//Все файлы это статика
+	// 		//Динамика только html
+	// 		Nostore::off();
+	// 	//}	
+	// }
+	public static function init() {
+		if (!Nostore::$conf['public']) return;
+		header('Cache-Control: public, max-age='.static::$conf['max-age']); //Переадресация на статику кэшируется max-age
+		header('Expires:'.date('D, d M Y H:i:s', static::getExpires()));
 	}
 	public static function is()
 	{

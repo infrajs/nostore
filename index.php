@@ -3,7 +3,8 @@
 use infrajs\nostore\Nostore;
 use infrajs\ans\Ans;
 
-
+//depricated 
+//TODO Улучшить работу с кэшем
 Nostore::pubStat();
 
 $ports = Nostore::$conf['port'];
