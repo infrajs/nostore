@@ -140,8 +140,8 @@ class Nostore {
 	 */
 	public static function on()
 	{
-		header('Cache-Control: no-store, max-age=0');
-		header('Expires:'.date('D, d M Y H:i:s'));
+		@header('Cache-Control: no-store, max-age=0');
+		@header('Expires:'.date('D, d M Y H:i:s'));
 	}
 	/**
 	 * no-cache или public выбирается только общим конфигом. И не рекомендуеся вызывать off() отдельно.
@@ -176,7 +176,7 @@ class Nostore {
 		$nostore = static::is();
 		if ($nostore) { //Есть no-store
 			//По умолчанию готовы кэшировать
-			header('Cache-Control: public');
+			@header('Cache-Control: public');
 			//static::pub(); //Выставяем public любой, так как потом всё равно нужно будет сбросить в no-store
 		}
 
