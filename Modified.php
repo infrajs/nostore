@@ -7,7 +7,9 @@ class Modified {
 
 		$strtime = gmdate('D, d M Y H:i:s', $time).' GMT';
 		header('Last-Modified: '.$strtime);
-
+		header_remove('Expires');
+		header_remove('Cache-Control');
+		
 		if (empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) return;
 		if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > $time) return;
 			
