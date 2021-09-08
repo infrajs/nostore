@@ -9,12 +9,12 @@ class Modified {
 		header('Last-Modified: '.$strtime);
 		header_remove('Expires');
 		header_remove('Cache-Control');
-		
+
 		if (empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) return;
-		if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > $time) return;
-			
-		http_response_code(304);
-		exit;
+		if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > $time) {
+			http_response_code(304);
+			exit;
+		}
 	}
 	public static function etagtime($etag, $time) { //304 только если оба условия удовлетворены
 		if (!$etag) return;
