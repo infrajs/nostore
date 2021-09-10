@@ -11,7 +11,7 @@ class Modified {
 		header_remove('Cache-Control');
 
 		if (empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) return;
-		if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > $time) {
+		if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $time) {
 			http_response_code(304);
 			exit;
 		}
